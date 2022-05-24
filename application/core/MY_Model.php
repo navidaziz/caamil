@@ -143,6 +143,8 @@ class MY_Model extends CI_Model
                 $order_by = $string[1];
                 $where = $string[1];
             }
+            // echo $where;
+            //exit();
             //
             $this->db->where($where);
         }

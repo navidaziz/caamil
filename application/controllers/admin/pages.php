@@ -54,13 +54,17 @@ class Pages extends Admin_Controller
     public function view_page($pageid)
     {
 
+
         $this->data['pageid'] = $pageid = (int) $pageid;
 
         $this->data["pages"] = $this->page_model->get_page($pageid);
-        $where = "`page_contents`.`status` IN (0,1) AND `page_contents`.`page_id` = $pageid  ORDER BY `page_contents`.order";
-        $this->data["page_contents"] = $this->page_content_model->get_page_content_list($where, FALSE);
 
-
+        $query = "SELECT * FROM page_contents WHERE page_id = $pageid";
+        $this->data["page_contents"] = $this->db->query($query)->result();
+        //$where = "`page_contents`.`status` IN (0,1) AND `page_contents`.`page_id`='" . $pageid . "'  ORDER BY `page_contents`.order";
+        // $this->data["page_contents"] = $this->page_content_model->get_page_content_list($where, FALSE);
+        //var_dump($this->data["page_contents"]);
+        //exit();
         $this->data["title"] = $this->lang->line('Page Details');
         $this->data["view"] = ADMIN_DIR . "pages/view_page";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
